@@ -9,7 +9,7 @@ import { PrismaClient } from "./generated/prisma/index.js";
 import { extractUser } from "./utils/extractUser.js";
 
 const typeDefs = await readFile("./schema.graphql", "utf8");
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 export interface Context {
   prisma: PrismaClient;
