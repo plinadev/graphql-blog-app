@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
 import { readFile } from "node:fs/promises";
-import { Mutation, Query } from "./resolvers/index.js";
+import { Mutation, Post, Profile, Query, User } from "./resolvers/index.js";
 import { PrismaClient } from "./generated/prisma/index.js";
 import { extractUser } from "./utils/extractUser.js";
 
@@ -23,6 +23,9 @@ const server = new ApolloServer<Context>({
   typeDefs,
   resolvers: {
     Query,
+    Profile,
+    Post,
+    User,
     Mutation,
   },
 });
