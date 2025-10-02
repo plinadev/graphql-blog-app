@@ -37,6 +37,7 @@ type User {
 type Profile {
   id: ID
   bio: String
+  isMyProfile: Boolean!
   user: User!
 }
 

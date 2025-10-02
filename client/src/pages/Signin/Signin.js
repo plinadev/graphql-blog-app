@@ -1,16 +1,46 @@
 import React, { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
 import { Button, Form } from "react-bootstrap";
+import { useMutation } from "@apollo/client/react";
 
-
+const SIGNIN = gql`
+  mutation ($password: String, $email: String) {
+    signin(credentials: { password: $password, email: $email }) {
+      userErrors {
+        message
+      }
+      token
+    }
+  }
+`;
 export default function Signin() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleClick = () => {};
+  const [signin, { data }] = useMutation(SIGNIN);
+  const handleClick = () => {
+    signin({
+      variables: {
+        password,
+        email,
+      },
+    });
+  };
 
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if (data) {
+      if (data.signin.userErrors.length) {
+        setError(data.signin.userErrors[0].message);
+      }
+      if (data.signin.token) {
+        localStorage.setItem("token", data.signin.token);
+        navigate("/posts");
+      }
+    }
+  }, [data, navigate]);
   return (
     <div>
       <Form>
